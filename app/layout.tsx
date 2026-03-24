@@ -60,6 +60,8 @@ export const metadata: Metadata = {
     "The premier platform for builders on Boundless. Discover projects, connect with builders, and build the future of decentralization.",
 };
 
+import { Navbar } from "@/components/navbar";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -71,6 +73,7 @@ export default function RootLayout({
       className={`${francy.variable} ${gilroy.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background font-sans text-foreground">
+        <Navbar />
         <main className="flex-1">{children}</main>
       </body>
     </html>
