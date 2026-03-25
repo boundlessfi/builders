@@ -5,116 +5,160 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ChevronRight } from "lucide-react";
+import { Menu, X, Search, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
 const navItems = [
-  { name: "Explore", href: "/explore" },
-  { name: "Projects", href: "/projects" },
-  { name: "Builder", href: "/builders" },
+  { name: "Explore", href: "/" },
+  { name: "Products", href: "/products" },
+  { name: "Builders", href: "/builders" },
 ];
 
 export function Navbar() {
   const [isOpen, setIsOpen] = React.useState(false);
+  const [scrolled, setScrolled] = React.useState(false);
   const pathname = usePathname();
 
   React.useEffect(() => {
     setIsOpen(false);
   }, [pathname]);
 
+  React.useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-md">
-      <div className="container mx-auto flex h-20 items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center space-x-3 group">
-          <div className="relative flex h-12 w-12 items-center justify-center transition-transform group-hover:scale-110">
+    <header
+      className={cn(
+        "sticky top-0 z-50 w-full transition-all duration-300",
+        scrolled
+          ? "border-b border-border/60 bg-background/90 backdrop-blur-xl shadow-sm"
+          : "bg-background/60 backdrop-blur-md"
+      )}
+    >
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-2.5 group shrink-0">
+          <div className="relative flex h-8 w-8 items-center justify-center transition-transform duration-200 group-hover:scale-105">
             <Image
               src="/logos/SVG_Coloured/BNDLSS__Colored icon.svg"
               alt="Boundless Logo"
-              width={48}
-              height={48}
-              className="drop-shadow-md"
+              width={32}
+              height={32}
             />
           </div>
-          <span className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-            Boundless <span className="text-primary">Builders</span>
+          <span className="font-heading text-lg font-bold tracking-wide text-foreground">
+            Boundless{" "}
+            <span className="text-aqua-marine">Builders</span>
           </span>
         </Link>
 
-        <nav className="hidden md:flex items-center space-x-8">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={cn(
-                "relative text-sm font-medium transition-colors hover:text-primary",
-                pathname === item.href
-                  ? "text-primary"
-                  : "text-muted-foreground",
-              )}
-            >
-              {item.name}
-              {pathname === item.href && (
-                <motion.div
-                  layoutId="navbar-underline"
-                  className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.3 }}
-                />
-              )}
-            </Link>
-          ))}
-          <Button
-            variant="default"
-            className="rounded-full px-6 font-semibold shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all"
-          >
-            Join Platform
-          </Button>
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex items-center gap-1">
+          {navItems.map((item) => {
+            const isActive =
+              item.href === "/"
+                ? pathname === "/"
+                : pathname.startsWith(item.href);
+
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  "relative px-3.5 py-2 text-sm font-medium rounded-lg transition-colors duration-200",
+                  isActive
+                    ? "text-foreground"
+                    : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
+                )}
+              >
+                {item.name}
+                {isActive && (
+                  <motion.div
+                    layoutId="navbar-indicator"
+                    className="absolute inset-x-1 -bottom-[13px] h-0.5 rounded-full bg-aqua-marine"
+                    transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                  />
+                )}
+              </Link>
+            );
+          })}
         </nav>
 
-        <div className="flex md:hidden">
+        {/* Desktop Actions */}
+        <div className="hidden md:flex items-center gap-3">
           <button
             type="button"
-            className="inline-flex items-center justify-center rounded-md p-2 text-muted-foreground hover:bg-accent hover:text-accent-foreground focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary"
-            onClick={() => setIsOpen(!isOpen)}
+            className="flex items-center gap-2 rounded-lg border border-border/60 bg-muted/50 px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:border-border hover:text-foreground"
           >
-            <span className="sr-only">Open main menu</span>
-            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            <Search className="h-3.5 w-3.5" />
+            <span>Search...</span>
+            <kbd className="pointer-events-none ml-4 hidden select-none items-center gap-0.5 rounded border border-border bg-background px-1.5 py-0.5 font-mono text-[10px] font-medium text-muted-foreground sm:inline-flex">
+              <span className="text-xs">&#8984;</span>K
+            </kbd>
           </button>
+          <Button
+            size="sm"
+            className="rounded-lg bg-aqua-marine text-rangoon-green font-semibold hover:bg-aqua-marine/90 transition-all gap-1.5"
+          >
+            Join Platform
+            <ArrowRight className="h-3.5 w-3.5" />
+          </Button>
         </div>
+
+        {/* Mobile Menu Button */}
+        <button
+          type="button"
+          className="inline-flex md:hidden items-center justify-center rounded-lg p-2 text-muted-foreground hover:bg-accent hover:text-foreground transition-colors"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <span className="sr-only">Toggle menu</span>
+          {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        </button>
       </div>
 
+      {/* Mobile Menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.2 }}
             className="md:hidden border-t border-border/40 bg-background overflow-hidden"
           >
-            <div className="space-y-1 px-4 pb-6 pt-4">
-              {navItems.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={cn(
-                    "flex items-center justify-between rounded-lg px-3 py-3 text-base font-medium transition-colors",
-                    pathname === item.href
-                      ? "bg-primary/10 text-primary"
-                      : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
-                  )}
-                >
-                  {item.name}
-                  <ChevronRight className="h-4 w-4" />
-                </Link>
-              ))}
-              <div className="pt-4">
+            <div className="px-4 py-3 space-y-1">
+              {navItems.map((item) => {
+                const isActive =
+                  item.href === "/"
+                    ? pathname === "/"
+                    : pathname.startsWith(item.href);
+
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={cn(
+                      "flex items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+                      isActive
+                        ? "bg-aqua-marine/10 text-aqua-marine"
+                        : "text-muted-foreground hover:bg-accent hover:text-foreground"
+                    )}
+                  >
+                    {item.name}
+                  </Link>
+                );
+              })}
+              <div className="pt-3 pb-1">
                 <Button
-                  className="w-full rounded-xl justify-center font-bold"
-                  size="lg"
+                  className="w-full rounded-lg bg-aqua-marine text-rangoon-green font-semibold hover:bg-aqua-marine/90 justify-center gap-1.5"
+                  size="sm"
                 >
                   Join Platform
+                  <ArrowRight className="h-3.5 w-3.5" />
                 </Button>
               </div>
             </div>
