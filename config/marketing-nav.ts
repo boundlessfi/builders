@@ -1,8 +1,7 @@
 /**
  * Navigation data for the public marketing site (header dropdowns, footer
  * columns, social links). Kept here so the header, mobile menu, and footer all
- * read from one source. Product links point at routes that land as those
- * pillars ship; the marketing pages themselves live under `(public)`.
+ * read from one source.
  */
 
 import {
@@ -10,9 +9,7 @@ import {
   BookOpen,
   Briefcase,
   Building2,
-  Code2,
   Coins,
-  FileText,
   type LucideIcon,
   Newspaper,
   Palette,
@@ -47,25 +44,25 @@ export const headerMenus: NavGroup[] = [
     items: [
       {
         label: 'About Us',
-        href: '/about',
+        href: `${siteConfig.parentUrl}/about`,
         description: 'Our mission and the team',
         icon: Building2,
       },
       {
         label: 'Blog',
-        href: '/blog',
+        href: `${siteConfig.parentUrl}/blog`,
         description: 'Product news and updates',
         icon: Newspaper,
       },
       {
         label: 'Careers',
-        href: '/careers',
+        href: `${siteConfig.parentUrl}/careers`,
         description: 'Open roles at Boundless',
         icon: Briefcase,
       },
       {
         label: 'Brand Kit',
-        href: '/brand-kit',
+        href: `${siteConfig.parentUrl}/brand-kit`,
         description: 'Logos, colors, and assets',
         icon: Palette,
       },
@@ -76,25 +73,25 @@ export const headerMenus: NavGroup[] = [
     items: [
       {
         label: 'Hackathons',
-        href: '/hackathons',
+        href: `${siteConfig.parentUrl}/hackathons`,
         description: 'Compete and ship projects',
         icon: Trophy,
       },
       {
         label: 'Bounties',
-        href: '/bounties',
+        href: `${siteConfig.parentUrl}/bounties`,
         description: 'Earn for completing tasks',
         icon: Target,
       },
       {
         label: 'Grants',
-        href: '/grants',
+        href: `${siteConfig.parentUrl}/grants`,
         description: 'Funding for builders',
         icon: Award,
       },
       {
         label: 'Crowdfunding',
-        href: '/crowdfunding',
+        href: `${siteConfig.parentUrl}/crowdfunding`,
         description: 'Raise from the community',
         icon: Coins,
       },
@@ -105,21 +102,9 @@ export const headerMenus: NavGroup[] = [
     items: [
       {
         label: 'Documentation',
-        href: '/docs',
+        href: 'https://docs.boundlessfi.xyz',
         description: 'Guides and references',
         icon: BookOpen,
-      },
-      {
-        label: 'API Reference',
-        href: '/docs/api',
-        description: 'Integrate with our API',
-        icon: Code2,
-      },
-      {
-        label: 'Whitepaper',
-        href: '/whitepaper',
-        description: 'How Boundless works',
-        icon: FileText,
       },
       {
         label: 'GitHub',
@@ -136,42 +121,41 @@ export const footerColumns: NavGroup[] = [
   {
     label: 'Company',
     items: [
-      { label: 'About Us', href: '/about' },
-      { label: 'Careers', href: '/careers' },
-      { label: 'Brand Kit', href: '/brand-kit' },
-      { label: 'Blog', href: '/blog' },
+      { label: 'About Us', href: `${siteConfig.parentUrl}/about` },
+      { label: 'About Builders', href: '/about' },
+      { label: 'Careers', href: `${siteConfig.parentUrl}/careers` },
+      { label: 'Brand Kit', href: `${siteConfig.parentUrl}/brand-kit` },
+      { label: 'Blog', href: `${siteConfig.parentUrl}/blog` },
     ],
   },
   {
     label: 'Product',
     items: [
-      { label: 'Bounties', href: '/bounties' },
-      { label: 'Hackathons', href: '/hackathons' },
-      { label: 'Crowdfunding', href: '/crowdfunding' },
-      { label: 'Grants', href: '/grants' },
+      { label: 'Bounties', href: `${siteConfig.parentUrl}/bounties` },
+      { label: 'Hackathons', href: `${siteConfig.parentUrl}/hackathons` },
+      { label: 'Crowdfunding', href: `${siteConfig.parentUrl}/crowdfunding` },
+      { label: 'Grants', href: `${siteConfig.parentUrl}/grants` },
     ],
   },
   {
     label: 'Resources',
     items: [
       { label: 'Documentation', href: 'https://docs.boundlessfi.xyz' },
-      { label: 'API Reference', href: '/docs/api' },
-      { label: 'FAQs', href: '/faq' },
-      { label: 'Whitepaper', href: '/whitepaper' },
+      { label: 'FAQs', href: `${siteConfig.parentUrl}/faq` },
       { label: 'GitHub', href: githubUrl },
     ],
   },
   {
     label: 'Legal',
     items: [
-      { label: 'Terms', href: '/terms' },
-      { label: 'Privacy', href: '/privacy' },
-      { label: 'Risk Disclosure', href: '/risk' },
+      { label: 'Terms', href: `${siteConfig.parentUrl}/terms` },
+      { label: 'Privacy', href: `${siteConfig.parentUrl}/privacy` },
+      { label: 'Risk Disclosure', href: `${siteConfig.parentUrl}/risk` },
     ],
   },
 ];
 
-export type SocialKey = 'discord' | 'linkedin' | 'telegram' | 'x' | 'support';
+export type SocialKey = 'discord' | 'linkedin' | 'telegram' | 'x';
 
 export interface SocialLink {
   key: SocialKey;
@@ -192,5 +176,4 @@ export const socialLinks: SocialLink[] = [
     label: '(formerly twitter)',
     href: `https://x.com/${siteConfig.twitterHandle.replace(/^@/, '')}`,
   },
-  { key: 'support', label: 'Support', href: '/support' },
 ];

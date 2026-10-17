@@ -84,7 +84,13 @@ function MegaMenu() {
   };
 
   return (
-    <nav className='flex items-center' aria-label='Primary'>
+    <nav className='flex items-center gap-1' aria-label='Primary'>
+      <Link
+        href='/builders'
+        className='inline-flex h-8 items-center px-4 text-sm font-medium text-[#8b8f97] transition-colors hover:text-white'
+      >
+        Builders
+      </Link>
       {headerMenus.map(menu => (
         <DropdownMenu
           key={menu.label}
@@ -147,6 +153,15 @@ function MobileMenu({ onNavigate }: { onNavigate: () => void }) {
       className='border-t border-[#27292c] bg-ink lg:hidden'
     >
       <div className='space-y-6 px-5 py-6'>
+        <div>
+          <Link
+            href='/builders'
+            onClick={onNavigate}
+            className='flex items-center rounded-lg p-2 text-sm font-medium text-white transition-colors hover:bg-white/5'
+          >
+            Builders
+          </Link>
+        </div>
         {headerMenus.map(menu => (
           <div key={menu.label}>
             <p className='mb-2 text-xs font-medium tracking-wider text-[#8b8f97] uppercase'>

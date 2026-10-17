@@ -1,3 +1,4 @@
+import { siteConfig } from '@/lib/seo/site';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -42,8 +43,15 @@ export function SiteFooter() {
                   intent='white'
                   shape='pill'
                   className='mt-5 w-full font-semibold lg:w-auto'
+                  asChild
                 >
-                  Get Updates
+                  <a
+                    href={`${siteConfig.parentUrl}/#newsletter`}
+                    target='_blank'
+                    rel='noreferrer'
+                  >
+                    Get Updates
+                  </a>
                 </Button>
               </div>
 
