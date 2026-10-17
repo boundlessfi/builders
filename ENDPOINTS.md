@@ -1,9 +1,8 @@
 # Builders App — API Endpoints
 
-This app is **read-only**. It displays builders, projects, and teams that are
+This app is **read-only**. It displays builders and projects that are
 created and managed in the main Boundless app. Every read comes from the shared
-`boundless-nestjs` backend, so this app and boundless-platform stay consistent
-(a project or user followed in the platform is read here from the same data).
+`boundless-nestjs` backend, so this app and boundless-platform stay consistent.
 
 The public read API was implemented by the backend team. This document mirrors
 `boundless-nestjs/docs/builders-public-reads.md` and maps each endpoint to the
@@ -43,27 +42,8 @@ truth.
 | `GET /projects/featured` | Featured projects row | Public |
 | `GET /discover/landing` | Ecosystem feed / counts | Public |
 | `GET /discover/recent-winners` | Recent winners highlight | Public |
-| `GET /users/directory?limit=N` | Fallback source for a builders strip | Public |
-| `GET /leaderboard` | Ranking + reputation (tier, score, stats). Not card-ready. | Public |
-
-> **Top builders:** use `GET /users/top-builders`. It returns a flat array of
-> card-ready builders in the standard `{ success, message, data, meta }`
-> envelope, with everything `BuilderCardView` needs:
->
-> ```json
-> { "id", "name", "username", "image", "role", "location",
->   "country", "skills": [], "followers": 0, "projects": 0 }
-> ```
->
-> Map: `name` -> displayName, `image` -> avatarSrc, `location` -> location,
-> `skills`/`followers`/`projects` straight across. Do **not** map `role` (it is
-> the account role, e.g. `"user"`, not a professional title). `GET /leaderboard`
-> is kept for ranking/reputation use only; it does **not** carry profile fields
-> (role, location, followers, projects), which is why the landing top-builders
-> row moved to `GET /users/top-builders`.
->
-> A stats strip can derive counts from the `pagination.total` of
-> `GET /users/directory`, `GET /projects`, and `GET /organizations`.
+| `GET /users/directory?limit=N` | Source for builders strip count | Public |
+| `GET /projects?limit=N` | Source for projects strip count | Public |
 
 ---
 
@@ -74,92 +54,21 @@ truth.
 | `GET /users/directory` | Public builders directory. Filters: `country`, `skills` (repeatable/CSV), `status`, `search`, `sort` (`name_asc\|name_desc\|newest\|oldest`), `page`, `limit`. Public profiles only. | Public |
 | `GET /users/filters` | Facets: `skills[]`, `countries[]` (with counts), `statuses[]` | Public |
 
-> The directory is `GET /users/directory`, **not** `GET /users`. `GET /users` is
-> Admin-only and is not used by this app.
+### Builder Listing Rule
+The builders directory lists only people who qualify on the backend:
+- A username, profile photo, and at least one skill on their Boundless profile.
+- A public profile.
+- At least one piece of real work on Boundless: a published project they created or joined, a hackathon entry, a bounty submission, or a bounty, quest, or grant award.
+- Not a staff account.
+Signing up or creating an organization alone no longer qualifies someone for listing. The filtering rule is enforced by the backend API.
 
 ---
 
-## `/builders/[username]` — Builder Profile
+## Main App Destinations
 
-| Endpoint | Purpose | Status |
-| --- | --- | --- |
-| `GET /users/:username` | Public profile. Embeds orgs, projects, stats, followStats. | Public |
-| `GET /users/:username/stats` | Public profile stats + follow counts | Private-aware |
-| `GET /users/:username/activity` | Contribution timeline (`limit`, `offset`) | Private-aware |
-| `GET /users/:username/organizations` | Teams the builder belongs to, with role | Private-aware |
-| `GET /users/:username/followers` · `/following` | Follower / following lists | Public |
-| `GET /projects?creatorId=:userId` | The builder's projects | Public |
-
----
-
-## `/projects` — Projects / Products Directory
-
-| Endpoint | Purpose | Status |
-| --- | --- | --- |
-| `GET /projects` | Directory. Filters: `creatorId`, `organizationId`, `tags` (repeatable/CSV), `category`, `publicStatus`, `originType`, `featured`, `search`. Never returns `IDEA` drafts. | Public |
-| `GET /projects/search` | Search public projects | Public |
-| `GET /projects/filters` | Facets: `categories[]` + `tags[]` (with counts), `publicStatuses[]`, `originTypes[]` | Public |
-
----
-
-## `/projects/[slug]` — Project Detail
-
-| Endpoint | Purpose | Status |
-| --- | --- | --- |
-| `GET /projects/:slug` | Project header and body (PII-scrubbed) | Public |
-| `GET /projects/:slug/members` | Contributor roster (from `ProjectMember`). Creator always included as `owner`. Drafts 404. | Public |
-| `GET /follows/entity/project/:id/followers` | Project follower list. The generic `entity/:entityType/:entityId/followers` route stays authenticated. | Public |
-| `GET /bounties?projectId=` · `GET /grants?projectId=` | Related opportunities | Public |
-
----
-
-## `/teams` — Teams / Organizations Directory
-
-| Endpoint | Purpose | Status |
-| --- | --- | --- |
-| `GET /organizations` | Public directory. `search`, `sortBy` (`createdAt\|name`), `sortOrder`, `page`, `limit`. Counts only, no member PII. | Public |
-| `GET /organizations/search` | Search organizations | Public |
-
----
-
-## `/teams/[slug]` — Team Detail
-
-| Endpoint | Purpose | Status |
-| --- | --- | --- |
-| `GET /organizations/profile/:idOrSlug` | Team profile | Public |
-| `GET /organizations/profile/:idOrSlug/funded` | Funded / supported projects | Public |
-| `GET /organizations/:id/members` | Public roster (identity fields only, capped, with `total`) | Public |
-| `GET /organizations/:id/stats` | Projects / hackathons / bounties / grants / participants / prize pool + followers | Public |
-
----
-
-## Cross-cutting
-
-| Endpoint | Purpose | Status |
-| --- | --- | --- |
-| `GET /leaderboard` | Leaderboard widget | Public |
-| `GET /follows/:entityType/:entityId/check` | "Am I following" state (only if this app has logged-in sessions) | Auth |
-
-### Not built here (boundary)
-
-`POST` / `DELETE /follows/:entityType/:entityId` and every other write stay in
-boundless-platform. This app never calls them.
-
----
-
-## Backend schema notes
-
-From migration `20260725000000_builders_public_reads`:
-
-- `BuilderStatus` enum (`AVAILABLE`, `OPEN_TO_WORK`, `BUSY`, `UNAVAILABLE`) and
-  indexed `UserProfile.country` / `UserProfile.status` back the directory filters
-  and facets.
-- `ProjectMember` model (`projectId`, `userId`, `role`, `joinedAt`) is the
-  first-class replacement for the untyped `Project.teamMembers` JSON and backs
-  `GET /projects/:slug/members`.
-
-## Shared data
-
-Follows and profiles are stored once and read by both apps. A user or project
-followed in boundless-platform is read here through the same endpoints. Nothing
-is duplicated.
+This showcase app links directly to the main Boundless application for full detail pages and interactive features:
+- Builder Profile: `<main app>/profile/:username`
+- Project Detail: `<main app>/projects/:slug`
+- Organization Profile: `<main app>/organizations/:slug`
+- Projects Directory: `<main app>/projects`
+- Newsletter Subscription: `<main app>/#newsletter`

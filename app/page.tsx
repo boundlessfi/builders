@@ -46,9 +46,8 @@ export default function Home() {
             <span className='text-primary-500'>Stellar</span>
           </h1>
           <p className='mx-auto mt-6 max-w-2xl text-body-lg text-muted-foreground'>
-            Explore the projects, teams, and creators building across the
-            Boundless ecosystem. This app showcases the work. Creating and
-            uploading happens in the main Boundless app.
+            Explore the builders, projects, and creators shipping across the
+            Boundless ecosystem.
           </p>
           <div className='mt-10 flex flex-wrap items-center justify-center gap-4'>
             <Button size='large'>Explore builders</Button>

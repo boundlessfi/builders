@@ -39,7 +39,6 @@ export const metadata: Metadata = {
     'web3 projects',
     'Boundless',
     'developers',
-    'teams',
   ],
   openGraph: {
     ...sharedOpenGraph,

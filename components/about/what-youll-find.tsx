@@ -11,15 +11,10 @@ const ITEMS = [
     description:
       'The products being built, launched, and funded on Boundless, with the teams behind them.',
   },
-  {
-    title: 'Teams',
-    description:
-      'The organizations turning ideas into shipped work, and the people who make them up.',
-  },
 ];
 
 /**
- * About-page section introducing the three things you can explore. Uses the
+ * About-page section introducing what you can explore. Uses the
  * two-column feature-list layout (purple eyebrow + heading on the left, a
  * dash-separated list on the right), mirroring the boundless-platform About
  * mission section.

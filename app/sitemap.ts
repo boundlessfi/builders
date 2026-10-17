@@ -12,5 +12,3 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }));
 }
 
-// TODO: When builder and project detail pages ship, extend this with generateSitemaps
-// to include dynamic routes. See issue #380 for context.

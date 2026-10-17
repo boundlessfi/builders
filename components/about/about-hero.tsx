@@ -15,7 +15,7 @@ export function AboutHero() {
       </h1>
       <p className='mt-4 text-lg leading-[1.2] tracking-[-0.48px] text-text-muted-brand lg:text-2xl'>
         Boundless Builders is a living showcase of the developers, designers, and
-        teams shipping across the ecosystem. See who is building, follow their
+        creators shipping across the ecosystem. See who is building, follow their
         work, and watch ideas become real.
       </p>
     </HeroSection>

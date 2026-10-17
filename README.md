@@ -8,7 +8,7 @@
 
 ### Boundless Builders
 
-The public showcase for the builders, projects, and teams shipping on Boundless.
+The public showcase for the builders and projects shipping on Boundless.
 
 </div>
 
@@ -28,10 +28,10 @@ The public showcase for the builders, projects, and teams shipping on Boundless.
 
 **Boundless Builders** is a display-only sub-app of the Boundless platform, served at
 `builders.boundlessfi.xyz`. It presents the people and work of the ecosystem:
-builders, their projects and products, and development teams.
+builders and their projects.
 
-This app **only displays** data. Creating, editing, and uploading builders,
-projects, and teams all happen in the main Boundless app
+This app **only displays** data. Creating, editing, and uploading builders and
+projects all happen in the main Boundless app
 ([boundlessfi.xyz](https://boundlessfi.xyz)). This showcase reads that data and
 renders it, so expect mostly read (`GET`) flows and no creation forms here.
 

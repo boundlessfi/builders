@@ -20,11 +20,7 @@ const STATS = [
     path: '/projects?limit=1',
     queryKey: ['ecosystem-stats', 'projects'],
   },
-  {
-    label: 'Teams',
-    path: '/organizations?limit=1',
-    queryKey: ['ecosystem-stats', 'teams'],
-  },
+
 ] as const;
 
 function NumberSkeleton({ mobile = false }: { mobile?: boolean }) {
@@ -39,8 +35,7 @@ function NumberSkeleton({ mobile = false }: { mobile?: boolean }) {
 /** Every list the strip counts documents the same `pagination` block. */
 type CountedList =
   | Schemas['BuildersDirectoryResponseDto']
-  | Schemas['PublicProjectListDto']
-  | Schemas['PublicOrganizationListDto'];
+  | Schemas['PublicProjectListDto'];
 
 async function fetchTotal(path: string) {
   const response = await apiFetch<CountedList>(path);
