@@ -1,3 +1,5 @@
+import { env } from '@/lib/env';
+
 /**
  * Shared site configuration for Boundless Builders. Page metadata and JSON-LD
  * structured data both read from here, so the same strings are never
@@ -17,7 +19,7 @@ export const siteConfig = {
   organizationName: 'Boundless',
   /** Canonical origin for this app, with no trailing slash. */
   url: readOrigin(
-    process.env.NEXT_PUBLIC_SITE_URL,
+    env.NEXT_PUBLIC_SITE_URL,
     'https://builders.boundlessfi.xyz'
   ),
   description:
@@ -26,7 +28,7 @@ export const siteConfig = {
   locale: 'en_US',
   /** The main Boundless app, where builders sign up and create. */
   parentUrl: readOrigin(
-    process.env.NEXT_PUBLIC_BOUNDLESS_APP_URL,
+    env.NEXT_PUBLIC_BOUNDLESS_APP_URL,
     'https://boundlessfi.xyz'
   ),
   /** Public path to the white Boundless logo used by structured data. */
