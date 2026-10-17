@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import { Camera, Check, User } from 'lucide-react';
 import Image from 'next/image';
 
@@ -131,6 +134,15 @@ export function Avatar({
   className,
 }: AvatarProps) {
   const hasStatus = status !== 'none';
+  const [hasError, setHasError] = useState(false);
+  const [prevSrc, setPrevSrc] = useState(src);
+
+  if (prevSrc !== src) {
+    setPrevSrc(src);
+    setHasError(false);
+  }
+
+  const showImage = Boolean(src && !hasError);
 
   return (
     <div className={cn('relative shrink-0', sizeClass[size], className)}>
@@ -141,13 +153,14 @@ export function Avatar({
           hasStatus && 'border-[1.5px] border-white'
         )}
       >
-        {src ? (
+        {showImage && src ? (
           <Image
             src={src}
             alt={alt}
             fill
             className='object-cover'
             sizes={`${({ xs: 24, sm: 32, md: 40, lg: 48, xl: 56, '2xl': 64, '3xl': 80 } as const)[size]}px`}
+            onError={() => setHasError(true)}
           />
         ) : initials ? (
           <span
