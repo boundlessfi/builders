@@ -18,7 +18,33 @@ const nextConfig: NextConfig = {
         pathname: '/**',
         search: '',
       },
+      // Avatars for builders who signed up with GitHub.
+      {
+        protocol: 'https',
+        hostname: 'avatars.githubusercontent.com',
+        port: '',
+        pathname: '/**',
+        search: '',
+      },
     ],
+  },
+  async redirects() {
+    const boundlessAppUrl = (
+      process.env.NEXT_PUBLIC_BOUNDLESS_APP_URL || 'https://boundlessfi.xyz'
+    ).replace(/\/+$/, '');
+
+    return [
+      {
+        source: '/projects',
+        destination: `${boundlessAppUrl}/projects`,
+        permanent: true,
+      },
+      {
+        source: '/projects/:path*',
+        destination: `${boundlessAppUrl}/projects`,
+        permanent: true,
+      },
+    ];
   },
 };
 

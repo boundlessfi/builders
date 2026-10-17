@@ -1,5 +1,7 @@
 'use client';
 
+import { siteConfig } from '@/lib/seo/site';
+
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 
@@ -84,7 +86,7 @@ export function FeaturedProjects() {
           size='large'
           asChild
         >
-          <Link href='/projects'>
+          <Link href={`${siteConfig.parentUrl}/projects`}>
             Browse all projects
             <ArrowRightIcon aria-hidden />
           </Link>

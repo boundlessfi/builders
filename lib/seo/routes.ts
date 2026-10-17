@@ -31,10 +31,4 @@ export const routes: RouteEntry[] = [
     changeFrequency: 'daily',
     priority: 0.9,
   },
-  {
-    slug: '/projects',
-    label: 'Projects',
-    changeFrequency: 'daily',
-    priority: 0.9,
-  },
 ];
