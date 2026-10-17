@@ -18,6 +18,13 @@ const nextConfig: NextConfig = {
         pathname: '/**',
         search: '',
       },
+      // Avatars for builders who signed up with GitHub.
+      {
+        protocol: 'https',
+        hostname: 'avatars.githubusercontent.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
 };
