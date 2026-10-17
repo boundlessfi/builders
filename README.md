@@ -14,13 +14,8 @@ The public showcase for the builders, projects, and teams shipping on Boundless.
 
 ---
 
-> [!IMPORTANT]
-> **This codebase has been converted from `bounties` to Boundless Builders.**
-> Bounties was originally going to be a separate app, so this repository started
-> as the bounties frontend. We have since decided to incorporate bounties into
-> the main Boundless app, so this codebase has been repurposed as the Boundless
-> Builders showcase instead. The original bounties app is preserved under
-> [`archive/`](./archive).
+> [!NOTE]
+> The previous bounties app lives in git history; its final state can be found at commit [`b18f420`](https://github.com/boundlessfi/builders/tree/b18f420).
 
 ---
 
@@ -34,9 +29,6 @@ This app **only displays** data. Creating, editing, and uploading builders,
 projects, and teams all happen in the main Boundless app
 ([boundlessfi.xyz](https://boundlessfi.xyz)). This showcase reads that data and
 renders it, so expect mostly read (`GET`) flows and no creation forms here.
-
-> This repository replaces the previous `bounties` app. The prior codebase is
-> preserved in full under [`archive/`](./archive) for reference.
 
 ## Tech stack
 
@@ -78,7 +70,6 @@ config/               # marketing-nav (header/footer/social links)
 lib/                  # cn() and small helpers
 providers/            # theme provider tree (dark default)
 public/               # brand assets, logos, currency, illustrations
-archive/              # the previous bounties app, kept for reference
 ```
 
 ## Getting started
