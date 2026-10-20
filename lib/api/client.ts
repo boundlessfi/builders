@@ -1,4 +1,5 @@
 import type { ApiEnvelope, ApiErrorDetail, ApiErrorEnvelope } from './types';
+import { publicEnv } from '../env';
 
 const API_PREFIX = '/api';
 
@@ -28,13 +29,7 @@ export class ApiError extends Error {
 }
 
 function resolveBaseUrl(): string {
-  const origin = process.env.NEXT_PUBLIC_API_URL;
-  if (!origin) {
-    throw new Error(
-      'NEXT_PUBLIC_API_URL is not set. Copy .env.example to .env.local.'
-    );
-  }
-  return `${origin.replace(/\/+$/, '')}${API_PREFIX}`;
+  return `${publicEnv.apiUrl.replace(/\/+$/, '')}${API_PREFIX}`;
 }
 
 async function readJson(response: Response): Promise<unknown> {
