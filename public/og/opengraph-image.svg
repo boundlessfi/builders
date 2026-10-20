@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title description">
+  <title id="title">Boundless Builders</title>
+  <desc id="description">An illuminated constellation of building blocks and the Boundless mark rises over a dark Stellar horizon.</desc>
+  <defs>
+    <radialGradient id="hero-glow" cx="0" cy="0" r="1" gradientTransform="translate(922 302) rotate(90) scale(395 460)" gradientUnits="userSpaceOnUse"><stop stop-color="#2eedaa" stop-opacity=".18"/><stop offset=".57" stop-color="#19825e" stop-opacity=".08"/><stop offset="1" stop-color="#0d1111" stop-opacity="0"/></radialGradient>
+    <linearGradient id="horizon" x1="600" y1="420" x2="600" y2="630" gradientUnits="userSpaceOnUse"><stop stop-color="#2eedaa" stop-opacity="0"/><stop offset=".68" stop-color="#2eedaa" stop-opacity=".09"/><stop offset="1" stop-color="#2eedaa" stop-opacity=".02"/></linearGradient>
+    <linearGradient id="mint-face" x1="775" y1="185" x2="1055" y2="465" gradientUnits="userSpaceOnUse"><stop stop-color="#eafdf7"/><stop offset=".38" stop-color="#73f3c6"/><stop offset="1" stop-color="#2eedaa"/></linearGradient>
+    <linearGradient id="block-top" x1="0" y1="0" x2="110" y2="68" gradientUnits="userSpaceOnUse"><stop stop-color="#bef9e5"/><stop offset="1" stop-color="#2eedaa"/></linearGradient>
+    <linearGradient id="block-left" x1="0" y1="26" x2="0" y2="112" gradientUnits="userSpaceOnUse"><stop stop-color="#19825e"/><stop offset="1" stop-color="#0e1313"/></linearGradient>
+    <linearGradient id="block-right" x1="110" y1="27" x2="110" y2="112" gradientUnits="userSpaceOnUse"><stop stop-color="#2ad89b"/><stop offset="1" stop-color="#136447"/></linearGradient>
+    <linearGradient id="edge-fade" x1="1180" y1="0" x2="350" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#0d1111" stop-opacity=".6"/><stop offset=".32" stop-color="#0d1111" stop-opacity="0"/><stop offset="1" stop-color="#0d1111" stop-opacity=".25"/></linearGradient>
+    <filter id="soft-glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="14"/></filter>
+    <filter id="mark-shadow" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="25" stdDeviation="19" flood-color="#2eedaa" flood-opacity=".16"/></filter>
+    <g id="chevrons"><path d="M38.4163 49.56V27.8694L38.4313 27.8593L38.4163 27.8493L0 0V21.7157L23.456 38.7122L0 55.7086V77.4194L38.4163 49.5751L38.4313 49.5651L38.4163 49.56Z"/><path d="M84.5796 49.56V27.8694L84.5947 27.8593L84.5796 27.8493L46.1733 0V21.7157L69.6243 38.7122L46.1733 55.7086V77.4194L84.5796 49.5751L84.5947 49.5651L84.5796 49.56Z"/></g>
+    <g id="module"><path d="M0 28 55 0 110 28 55 57Z" fill="url(#block-top)"/><path d="M0 28 55 57 55 112 0 83Z" fill="url(#block-left)"/><path d="M55 57 110 28 110 83 55 112Z" fill="url(#block-right)"/><path d="M0 28 55 57 110 28M55 57V112" fill="none" stroke="#bef9e5" stroke-opacity=".52" stroke-width="1.2"/><path d="M12 35 55 58 98 35M12 76 55 99 98 76" fill="none" stroke="#2eedaa" stroke-opacity=".25"/></g>
+  </defs>
+  <g id="01-background">
+    <path fill="#0d1111" d="M0 0h1200v630H0z"/>
+    <path fill="url(#hero-glow)" d="M0 0h1200v630H0z"/>
+    <path fill="url(#horizon)" d="M0 400h1200v230H0z"/>
+    <path d="M0 545C285 513 492 521 703 530c207 8 328-22 497-84" fill="none" stroke="#2eedaa" stroke-opacity=".09"/>
+    <path d="M0 574c295-38 489-37 690-22 222 17 361-23 510-89" fill="none" stroke="#2eedaa" stroke-opacity=".06"/>
+    <path d="M0 605c314-41 497-42 705-23 232 20 365-27 495-88" fill="none" stroke="#2eedaa" stroke-opacity=".05"/>
+    <path d="M694 630 885 429M804 630 922 429M917 630 958 429M1035 630 990 429M1154 630 1022 429" stroke="#2eedaa" stroke-opacity=".07"/>
+    <path d="M0 0h1200v630H0z" fill="url(#edge-fade)"/>
+  </g>
+  <g id="02-starfield" fill="#eafdf7">
+    <circle cx="83" cy="42" r="1.1" opacity=".42"/><circle cx="171" cy="88" r=".7" opacity=".54"/><circle cx="255" cy="50" r=".8" opacity=".37"/><circle cx="340" cy="106" r="1" opacity=".3"/><circle cx="438" cy="58" r=".7" opacity=".49"/><circle cx="507" cy="134" r="1.1" opacity=".31"/><circle cx="585" cy="69" r=".8" opacity=".52"/><circle cx="652" cy="109" r=".6" opacity=".41"/><circle cx="714" cy="41" r="1.1" opacity=".42"/><circle cx="777" cy="90" r=".7" opacity=".55"/><circle cx="843" cy="57" r=".9" opacity=".31"/><circle cx="938" cy="106" r="1.1" opacity=".48"/><circle cx="1027" cy="50" r=".8" opacity=".32"/><circle cx="1104" cy="99" r=".7" opacity=".53"/><circle cx="1161" cy="62" r="1" opacity=".34"/>
+    <circle cx="108" cy="171" r=".6" opacity=".29"/><circle cx="223" cy="144" r=".7" opacity=".26"/><circle cx="389" cy="188" r=".8" opacity=".23"/><circle cx="570" cy="167" r=".6" opacity=".35"/><circle cx="693" cy="199" r=".9" opacity=".35"/><circle cx="753" cy="135" r=".8" opacity=".46"/><circle cx="1097" cy="157" r=".7" opacity=".47"/><circle cx="1167" cy="211" r=".8" opacity=".35"/>
+    <circle cx="63" cy="286" r=".7" opacity=".24"/><circle cx="168" cy="226" r=".6" opacity=".2"/><circle cx="614" cy="261" r=".7" opacity=".24"/><circle cx="1136" cy="317" r=".7" opacity=".31"/><circle cx="1175" cy="379" r=".9" opacity=".3"/>
+  </g>
+  <g id="03-orbits-and-constellation" fill="none">
+    <circle cx="918" cy="315" r="211" stroke="#2eedaa" stroke-opacity=".12"/>
+    <circle cx="918" cy="315" r="174" stroke="#2eedaa" stroke-opacity=".13" stroke-dasharray="2 11"/>
+    <path d="M719 246a211 211 0 0 1 332-99M1117 388a211 211 0 0 1-347 90" stroke="#73f3c6" stroke-opacity=".4" stroke-width="1.5"/>
+    <path d="m705 415 108-170 104 68 142-125 72 134-86 147-128-156-130 178" stroke="#2eedaa" stroke-opacity=".25"/>
+    <path d="m813 245 104 68 142-125M705 415l212-102 214 9" stroke="#eafdf7" stroke-opacity=".1"/>
+    <path d="M697 440c173 42 317-3 415-117" stroke="#2eedaa" stroke-opacity=".38" stroke-width="2" stroke-linecap="round" stroke-dasharray="1 10"/>
+    <g fill="#2eedaa" stroke="none"><circle cx="705" cy="415" r="3"/><circle cx="813" cy="245" r="3"/><circle cx="1059" cy="188" r="3"/><circle cx="1131" cy="322" r="3"/><circle cx="1045" cy="469" r="3"/><circle cx="787" cy="491" r="3"/></g>
+    <g fill="#0d1111" stroke="#73f3c6" stroke-width="1.5"><circle cx="705" cy="415" r="7"/><circle cx="813" cy="245" r="7"/><circle cx="1059" cy="188" r="7"/><circle cx="1131" cy="322" r="7"/><circle cx="1045" cy="469" r="7"/><circle cx="787" cy="491" r="7"/></g>
+    <path d="M1131 306v-25m-16 41h-24M1059 172v-23m-15 39h-22M787 507v23m-14-39h-23" stroke="#2eedaa" stroke-opacity=".32"/>
+  </g>
+  <g id="04-building-blocks">
+    <use href="#module" transform="translate(738 353) scale(.72)" opacity=".62"/>
+    <use href="#module" transform="translate(1020 367) scale(.68)" opacity=".63"/>
+    <use href="#module" transform="translate(833 119) scale(.44)" opacity=".68"/>
+    <use href="#module" transform="translate(1078 201) scale(.4)" opacity=".55"/>
+    <path d="m747 353 46-23 47 24m180 13 37-20 38 20" fill="none" stroke="#2eedaa" stroke-opacity=".45"/>
+  </g>
+  <g id="05-boundless-emblem" filter="url(#mark-shadow)">
+    <use href="#chevrons" transform="translate(794 207) scale(3.15) translate(9 12)" fill="#0b0f0e" opacity=".8"/>
+    <use href="#chevrons" transform="translate(794 207) scale(3.15)" fill="url(#mint-face)"/>
+    <use href="#chevrons" transform="translate(794 207) scale(3.15)" fill="none" stroke="#eafdf7" stroke-opacity=".43" stroke-width=".45"/>
+  </g>
+  <g id="06-sparkles" stroke="#bef9e5" stroke-linecap="round">
+    <path d="M969 127v20m-10-10h20M736 315v17m-8.5-8.5h17M1097 417v20m-10-10h20" stroke-opacity=".7"/>
+    <circle cx="969" cy="137" r="3" fill="#2eedaa" filter="url(#soft-glow)" stroke="none"/><circle cx="1097" cy="427" r="4" fill="#2eedaa" filter="url(#soft-glow)" stroke="none"/>
+  </g>
+  <g id="07-identity-and-copy">
+    <use href="#chevrons" transform="translate(76 73) scale(.38)" fill="#2eedaa"/>
+    <text x="120" y="97" fill="#bef9e5" font-family="Plus Jakarta Sans, sans-serif" font-size="15" font-weight="700" letter-spacing="2.2">THE STELLAR BUILDER ECOSYSTEM</text>
+    <text x="76" y="290" fill="#f3f7f6" font-family="Bebas Neue, sans-serif" font-size="136" letter-spacing="1.4">BOUNDLESS</text>
+    <text x="76" y="409" fill="#2eedaa" font-family="Bebas Neue, sans-serif" font-size="136" letter-spacing="1.4">BUILDERS</text>
+    <path d="M77 446v50" stroke="#2eedaa" stroke-width="3" stroke-linecap="round"/>
+    <text x="101" y="479" fill="#dde7e5" font-family="Plus Jakarta Sans, sans-serif" font-size="23" font-weight="500">Discover the builders shipping on Stellar</text>
+  </g>
+</svg>
