@@ -1,5 +1,6 @@
+import { publicEnv } from '@/lib/env';
+
 import type { ApiEnvelope, ApiErrorDetail, ApiErrorEnvelope } from './types';
-import { publicEnv } from '../env';
 
 const API_PREFIX = '/api';
 

@@ -3,7 +3,7 @@
  * structured data both read from here, so the same strings are never
  * duplicated across routes.
  */
-import { publicEnv } from '../env';
+import { publicEnv } from '@/lib/env';
 
 /**
  * Read an origin from the environment. Trims whitespace and trailing slashes

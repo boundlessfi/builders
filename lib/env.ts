@@ -42,14 +42,16 @@ const boundlessAppUrl = readHttpUrl(
   process.env.NEXT_PUBLIC_BOUNDLESS_APP_URL
 );
 
-if (invalidVariables.length > 0) {
+// `apiUrl` is only undefined when it was already reported above; checking it
+// here as well lets TypeScript narrow it to a string for `publicEnv`.
+if (apiUrl === undefined || invalidVariables.length > 0) {
   throw new Error(
     `Invalid or missing public environment variable(s): ${invalidVariables.join(', ')}. Copy .env.example to .env.local and set each URL to an absolute http(s) URL.`
   );
 }
 
 export const publicEnv = {
-  apiUrl: apiUrl as string,
+  apiUrl,
   siteUrl,
   boundlessAppUrl,
 };
