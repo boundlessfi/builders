@@ -183,6 +183,7 @@ export type SocialKey = 'discord' | 'linkedin' | 'telegram' | 'x' | 'support';
 export interface SocialLink {
   key: SocialKey;
   label: string;
+  ariaLabel?: string;
   href: string;
 }
 
@@ -196,7 +197,8 @@ export const socialLinks: SocialLink[] = [
   { key: 'telegram', label: 'Telegram', href: 'https://t.me/boundlessfi' },
   {
     key: 'x',
-    label: '(formerly twitter)',
+    label: '(formerly Twitter)',
+    ariaLabel: 'X (formerly Twitter)',
     href: `https://x.com/${siteConfig.twitterHandle.replace(/^@/, '')}`,
   },
 ];
