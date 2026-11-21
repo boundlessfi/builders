@@ -18,12 +18,12 @@ const PROJECT_STATUS: Record<
   ARCHIVED: 'completed',
 };
 
-const ORIGIN_LABEL: Record<Schemas['ProjectOriginType'], string> = {
+const ORIGIN_LABEL: Partial<Record<Schemas['ProjectOriginType'], string>> = {
   HACKATHON: 'Hackathon',
   GRANT: 'Grant',
   BOUNTY: 'Bounty',
   CROWDFUNDING: 'Crowdfunding',
-  MANUAL: 'Manual',
+  MANUAL: '',
 };
 
 export function toProjectCard(
@@ -39,7 +39,7 @@ export function toProjectCard(
     category: project.category ?? 'Uncategorized',
     // A solo project has no team; the creator is the one participant.
     participants: project.team?.total ?? 1,
-    mode: project.originType ? ORIGIN_LABEL[project.originType] : '',
+    mode: (project.originType && ORIGIN_LABEL[project.originType]) || '',
     comments: project._count.comments,
     logo: project.logo ?? undefined,
     // Only link out when a slug exists; do not fall back to the id.
