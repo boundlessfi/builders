@@ -64,8 +64,9 @@ export function StatsBanner({
             <p className="mt-2 text-sm text-muted-foreground sm:text-base">
               {subtitleWithLink.text}{" "}
               <button
+                type="button"
                 onClick={subtitleWithLink.onLinkClick}
-                className="text-primary-500 hover:text-primary-400 underline transition-colors"
+                className="text-primary-500 hover:text-primary-400 underline transition-colors rounded focus-visible:ring-2 focus-visible:ring-primary-500/50 focus-visible:outline-none"
               >
                 {subtitleWithLink.linkText}
               </button>
