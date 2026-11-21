@@ -18,3 +18,18 @@ export function profileUrl(username: string): string {
 export function projectUrl(slug: string): string {
   return mainAppUrl(`/projects/${encodeURIComponent(slug)}`);
 }
+
+/**
+ * Link attributes for external links. External links starting with `http`
+ * open in a new tab with `target="_blank"` and `rel="noopener noreferrer"`.
+ */
+export function externalLinkProps(href: string): {
+  target?: '_blank';
+  rel?: 'noopener noreferrer';
+} {
+  if (!href.startsWith('http')) return {};
+  return {
+    target: '_blank',
+    rel: 'noopener noreferrer',
+  };
+}

@@ -5,11 +5,8 @@ import { SocialGlyph } from '@/components/layout/brand-icons';
 import { FooterGlow } from '@/components/layout/footer-glow';
 import { Button } from '@/components/ui/button';
 import { footerColumns, socialLinks } from '@/config/marketing-nav';
+import { externalLinkProps } from '@/lib/main-app';
 import { siteConfig } from '@/lib/seo/site';
-
-function externalLinkProps(href: string) {
-  return href.startsWith('http') ? { target: '_blank', rel: 'noreferrer' } : {};
-}
 
 export function SiteFooter() {
   return (
