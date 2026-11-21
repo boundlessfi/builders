@@ -9,12 +9,14 @@ import { Activity01Icon, CodeIcon, GlobeIcon } from "@/components/icons";
 import { HowToGetListedDialog } from "@/components/discover/how-to-get-listed-dialog";
 import { Section } from "@/components/marketing/section";
 
+import { ActiveFilterChips, type ActiveChip } from "./active-filter-chips";
 import { BuildersGrid } from "./builders-grid";
 import { BuildersSortSelect } from "./builders-sort-select";
 import { StatsBanner } from "./stats-banner";
 import { DiscoverToolbar } from "./discover-toolbar";
 import {
   FilterRail,
+  formatLabel,
   hasActiveFilters,
   type FilterSectionConfig,
   type FilterValue,
@@ -63,7 +65,7 @@ const COUNTRY_NAMES = new Map<string, string>(
   getCountryDataList().map((country) => [country.iso2, country.name]),
 );
 
-function countryLabel(code: string): string | undefined {
+export function countryLabel(code: string): string | undefined {
   return COUNTRY_NAMES.get(code.toUpperCase());
 }
 
@@ -196,6 +198,47 @@ export function BuildersView() {
     ];
   }, [facets]);
 
+  const activeChips = useMemo<ActiveChip[]>(() => {
+    const chips: ActiveChip[] = [];
+    for (const skill of filters.skills ?? []) {
+      chips.push({
+        group: "skills",
+        value: skill,
+        label: skill,
+      });
+    }
+    if (filters.country?.[0]) {
+      const code = filters.country[0];
+      chips.push({
+        group: "country",
+        value: code,
+        label: countryLabel(code) ?? code,
+      });
+    }
+    if (filters.status?.[0]) {
+      const status = filters.status[0];
+      chips.push({
+        group: "status",
+        value: status,
+        label: formatLabel(status),
+      });
+    }
+    return chips;
+  }, [filters]);
+
+  const removeFilter = useCallback(
+    (group: string, value: string) => {
+      const current = filters[group] ?? [];
+      const nextGroup = current.filter((v) => v !== value);
+      const nextFilters: FilterValue = {
+        ...filters,
+        [group]: nextGroup,
+      };
+      navigate(search, nextFilters, 1, "push");
+    },
+    [filters, navigate, search],
+  );
+
   const reset = () => {
     setCommitted("");
     setSearchInput("");
@@ -253,7 +296,14 @@ export function BuildersView() {
           </aside>
         ) : null}
 
-        <div className="min-w-0 flex-1">
+        <div className="min-w-0 flex-1 flex flex-col gap-6">
+          <ActiveFilterChips
+            total={data?.pagination.total}
+            isPending={isPending}
+            isError={isError}
+            chips={activeChips}
+            onRemove={removeFilter}
+          />
           <BuildersGrid
             data={data}
             isPending={isPending}

@@ -28,7 +28,7 @@ export function hasActiveFilters(value: FilterValue): boolean {
 }
 
 /** `IN_DEVELOPMENT` -> `In Development`. */
-function formatLabel(value: string): string {
+export function formatLabel(value: string): string {
   return value
     .toLowerCase()
     .split('_')
