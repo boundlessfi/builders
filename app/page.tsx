@@ -25,6 +25,7 @@ import { Section } from '@/components/marketing/section';
 import { Button } from '@/components/ui/button';
 import type { Metadata } from 'next';
 
+import { mainAppUrl } from '@/lib/main-app';
 import { indexableRobots, sharedOpenGraph } from '@/lib/seo/metadata';
 import { siteConfig } from '@/lib/seo/site';
 
@@ -103,7 +104,7 @@ export default async function Home() {
               <Link href='/builders'>Explore builders</Link>
             </Button>
             <Button intent='secondary' appearance='outline' size='large' asChild>
-              <Link href='/projects'>View projects</Link>
+              <Link href={mainAppUrl('/projects')}>View projects</Link>
             </Button>
           </div>
         </Section>

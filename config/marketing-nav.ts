@@ -19,12 +19,8 @@ import {
   Trophy,
 } from 'lucide-react';
 
+import { mainAppUrl } from '@/lib/main-app';
 import { siteConfig } from '@/lib/seo/site';
-
-/** Helper to create absolute URLs to the main Boundless app. */
-function mainAppUrl(path: string): string {
-  return `${siteConfig.parentUrl}${path}`;
-}
 
 /** Boundless on GitHub, shared by the header nav, footer, and SEO schemas. */
 export const githubUrl = 'https://github.com/boundlessfi';
@@ -50,7 +46,7 @@ export const headerMenus: NavGroup[] = [
     items: [
       {
         label: 'Projects',
-        href: '/projects',
+        href: mainAppUrl('/projects'),
         description: 'Browse projects and creators',
         icon: Trophy,
       },
