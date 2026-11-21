@@ -7,9 +7,10 @@ import {
   MoveLeft,
   RotateCcw,
   Search,
+  X,
 } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
-import type { ReactNode } from 'react';
+import { type ReactNode, useRef } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { transitions } from '@/lib/motion';
@@ -47,6 +48,7 @@ export function DiscoverToolbar({
   query,
   onQueryChange,
   placeholder = 'Search',
+  ariaLabel,
 }: FilterProps & {
   /** Hide the dummy Newest pill on pages that do not wire sorting. */
   showSort?: boolean;
@@ -59,11 +61,17 @@ export function DiscoverToolbar({
   query: string;
   onQueryChange: (value: string) => void;
   placeholder?: string;
+  /**
+   * Accessible name for the search input. Defaults to `placeholder` when omitted.
+   */
+  ariaLabel?: string;
 }) {
+  const inputRef = useRef<HTMLInputElement>(null);
   // Pages that omit filter handlers skip the Filters button rather than
   // rendering one that does nothing. `FilterProps` guarantees the handlers
   // arrive together, so one check covers all three.
   const showFilters = onToggleFilters !== undefined;
+  const searchAriaLabel = ariaLabel ?? placeholder;
 
   return (
     <div className='flex items-center gap-3'>
@@ -112,18 +120,38 @@ export function DiscoverToolbar({
       {/* `min-w-0` so the box can shrink below its content width. Without it a
           flex item refuses to shrink, and the row overflows once the sort pill
           joins it on a narrow screen. */}
-      <div className='flex min-w-0 flex-1 items-center gap-2 rounded-full border border-[#1f2a28] px-4 py-2.5'>
+      <div
+        role='search'
+        className='flex min-w-0 flex-1 items-center gap-2 rounded-full border border-[#1f2a28] px-4 py-2.5'
+      >
         <Search
           className='size-4 shrink-0 text-muted-foreground'
           strokeWidth={1.75}
           aria-hidden
         />
         <input
+          ref={inputRef}
+          type='search'
+          enterKeyHint='search'
+          aria-label={searchAriaLabel}
           value={query}
           onChange={event => onQueryChange(event.target.value)}
           placeholder={placeholder}
-          className='w-full bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground'
+          className='w-full bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground [&::-webkit-search-cancel-button]:hidden [&::-webkit-search-decoration]:hidden'
         />
+        {query.length > 0 && (
+          <button
+            type='button'
+            aria-label='Clear search'
+            onClick={() => {
+              onQueryChange('');
+              inputRef.current?.focus();
+            }}
+            className='inline-flex size-5 shrink-0 cursor-pointer items-center justify-center rounded-full text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500'
+          >
+            <X className='size-3.5' strokeWidth={2} aria-hidden />
+          </button>
+        )}
       </div>
 
       {showFilters && (
