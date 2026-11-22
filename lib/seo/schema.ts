@@ -121,6 +121,7 @@ export function organizationSchema(): OrganizationSchema {
     socialHref('linkedin'),
     githubUrl,
     socialHref('discord'),
+    socialHref('telegram'),
   ].filter((href): href is string => Boolean(href));
 
   return {
