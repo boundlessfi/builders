@@ -58,8 +58,9 @@ export function BuildersGrid({
         </p>
         {!isNarrowed && onHelpClick && (
           <button
+            type="button"
             onClick={onHelpClick}
-            className="text-primary-500 hover:text-primary-400 text-sm underline transition-colors"
+            className="text-primary-500 hover:text-primary-400 text-sm underline transition-colors rounded focus-visible:ring-2 focus-visible:ring-primary-500/50 focus-visible:outline-none"
           >
             How to get listed
           </button>
