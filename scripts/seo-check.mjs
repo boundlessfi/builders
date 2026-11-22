@@ -27,6 +27,7 @@
  */
 
 import { spawn } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 
 // ---------------------------------------------------------------------------
 // Config
@@ -53,11 +54,15 @@ const HTML_ROUTES = ['/', '/about', '/builders'];
 const STATUS_ROUTES = ['/robots.txt', '/sitemap.xml'];
 
 /** Regex patterns that must match somewhere in the raw HTML of each route. */
-const REQUIRED_PATTERNS = {
-  'og:image': /<meta[^>]+property=["']og:image["'][^>]*>/i,
-  'twitter:card': /<meta[^>]+name=["']twitter:card["'][^>]*>/i,
-  canonical: /<link[^>]+rel=["']canonical["'][^>]*>/i,
-  description: /<meta[^>]+name=["']description["'][^>]*>/i,
+export const REQUIRED_PATTERNS = {
+  'og:image':
+    /<meta(?=[^>]*?\bproperty=["']og:image["'])(?=[^>]*?\bcontent=["'][^"'\s][^"']*?["'])[^>]*?>/i,
+  'twitter:card':
+    /<meta(?=[^>]*?\bname=["']twitter:card["'])(?=[^>]*?\bcontent=["'][^"'\s][^"']*?["'])[^>]*?>/i,
+  canonical:
+    /<link(?=[^>]*?\brel=["']canonical["'])(?=[^>]*?\bhref=["'][^"'\s][^"']*?["'])[^>]*?>/i,
+  description:
+    /<meta(?=[^>]*?\bname=["']description["'])(?=[^>]*?\bcontent=["'][^"'\s][^"']*?["'])[^>]*?>/i,
 };
 
 // ---------------------------------------------------------------------------
@@ -280,7 +285,12 @@ async function main() {
   await finish(0);
 }
 
-main().catch(async (err) => {
-  process.stderr.write(red(`${err.message}\n`));
-  await finish(1);
-});
+const isMain =
+  process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1];
+
+if (isMain) {
+  main().catch(async (err) => {
+    process.stderr.write(red(`${err.message}\n`));
+    await finish(1);
+  });
+}
