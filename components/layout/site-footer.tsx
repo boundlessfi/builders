@@ -106,7 +106,7 @@ export function SiteFooter() {
                 key={social.key}
                 href={social.href}
                 {...externalLinkProps(social.href)}
-                aria-label={social.label}
+                aria-label={social.ariaLabel ?? social.label}
                 className='flex size-12 items-center justify-center gap-2 rounded-full bg-secondary text-foreground transition-colors hover:bg-neutral-700 lg:size-auto lg:w-full lg:px-4 lg:py-3'
               >
                 <SocialGlyph name={social.key} className='size-5 shrink-0' />

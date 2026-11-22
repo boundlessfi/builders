@@ -184,6 +184,12 @@ export interface SocialLink {
   key: SocialKey;
   label: string;
   href: string;
+  /**
+   * Accessible name announced by screen readers. Defaults to `label` when
+   * omitted. Set this when the visible `label` is not self-describing on its
+   * own (e.g. the X link's "(formerly twitter)" text relies on the glyph).
+   */
+  ariaLabel?: string;
 }
 
 export const socialLinks: SocialLink[] = [
@@ -197,6 +203,7 @@ export const socialLinks: SocialLink[] = [
   {
     key: 'x',
     label: '(formerly twitter)',
+    ariaLabel: 'X (formerly Twitter)',
     href: `https://x.com/${siteConfig.twitterHandle.replace(/^@/, '')}`,
   },
 ];
