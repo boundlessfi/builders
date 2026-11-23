@@ -17,6 +17,7 @@ import {
   Target,
   Terminal,
   Trophy,
+  Users,
 } from 'lucide-react';
 
 import { siteConfig } from '@/lib/seo/site';
@@ -48,6 +49,12 @@ export const headerMenus: NavGroup[] = [
   {
     label: 'Builders',
     items: [
+      {
+        label: 'Builders',
+        href: '/builders',
+        description: 'Explore the builder directory',
+        icon: Users,
+      },
       {
         label: 'Projects',
         href: '/projects',
@@ -154,6 +161,7 @@ export const footerColumns: NavGroup[] = [
   {
     label: 'Product',
     items: [
+      { label: 'Builders', href: '/builders' },
       { label: 'Bounties', href: mainAppUrl('/bounties') },
       { label: 'Hackathons', href: mainAppUrl('/hackathons') },
       { label: 'Crowdfunding', href: mainAppUrl('/crowdfunding') },
