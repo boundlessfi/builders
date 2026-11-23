@@ -23,7 +23,8 @@ const ORIGIN_LABEL: Record<Schemas['ProjectOriginType'], string> = {
   GRANT: 'Grant',
   BOUNTY: 'Bounty',
   CROWDFUNDING: 'Crowdfunding',
-  MANUAL: 'Manual',
+  // Projects added by hand have no meaningful public origin label.
+  MANUAL: '',
 };
 
 export function toProjectCard(

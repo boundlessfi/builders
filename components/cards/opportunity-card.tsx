@@ -135,9 +135,11 @@ export function OpportunityCard({
         <Meta icon={Users} className='shrink-0'>
           {participants}
         </Meta>
-        <Meta icon={Layers} className='min-w-0'>
-          {mode}
-        </Meta>
+        {mode ? (
+          <Meta icon={Layers} className='min-w-0'>
+            {mode}
+          </Meta>
+        ) : null}
         <Meta icon={MessageCircleMore} className='shrink-0'>
           {comments}
         </Meta>
