@@ -92,6 +92,8 @@ Open [http://localhost:3000](http://localhost:3000).
 | `npm run build` | Production build |
 | `npm run start` | Serve the production build |
 | `npm run lint` | Run ESLint |
+| `npm run test` | Run unit tests (single run) |
+| `npm run test:watch` | Run unit tests in watch mode |
 
 Before opening a PR, run the full local check:
 

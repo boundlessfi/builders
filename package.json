@@ -7,6 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "seo:check": "node scripts/seo-check.mjs",
     "codegen:snapshot": "openapi-typescript openapi.snapshot.json -o lib/api/generated/schema.d.ts"
   },
@@ -36,6 +38,7 @@
     "eslint-config-next": "16.2.10",
     "openapi-typescript": "^7.13.0",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^3.2.7"
   }
 }
