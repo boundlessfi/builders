@@ -262,6 +262,10 @@ export function BuildersView() {
             page={page}
             pageSize={BUILDERS_PAGE_SIZE}
             onPageChange={(next) => navigate(search, filters, next, "push")}
+            getPageHref={(next) => {
+              const query = buildQuery(search, filters, next, sort);
+              return query ? `/builders?${query}` : "/builders";
+            }}
             onHelpClick={() => setHelpDialogOpen(true)}
           />
         </div>
