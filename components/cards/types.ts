@@ -12,6 +12,12 @@ export type OpportunityCardStatus =
   | 'review'
   | 'completed';
 
+export type BuilderCardStatus =
+  | 'AVAILABLE'
+  | 'OPEN_TO_WORK'
+  | 'BUSY'
+  | 'UNAVAILABLE';
+
 export interface BuilderCardView {
   id: string;
   /** The builder's display name (e.g. "Jane Doe"). */
@@ -20,6 +26,10 @@ export interface BuilderCardView {
   username: string;
   /** Optional avatar image URL. */
   avatarSrc?: string;
+  /** Availability status when set (e.g. "OPEN_TO_WORK"). */
+  status?: BuilderCardStatus;
+  /** Short bio shown under the name when available. */
+  bio?: string;
   /** Professional role or title (e.g. "Full-stack developer"). */
   role?: string;
   /** Country or city label (e.g. "Nigeria"). */

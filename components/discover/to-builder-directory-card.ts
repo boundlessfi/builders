@@ -19,6 +19,8 @@ export function toDirectoryBuilderCard(
     displayName: builder.name ?? builder.username ?? 'Unknown',
     username: builder.username ?? '',
     avatarSrc: builder.image ?? undefined,
+    status: builder.status ?? undefined,
+    bio: builder.bio?.trim() || undefined,
     location: builder.location ?? builder.country ?? undefined,
     skills: builder.skills?.slice(0, MAX_SKILLS),
     // Only link out when a username exists; a null username would otherwise
