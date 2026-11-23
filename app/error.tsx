@@ -7,10 +7,10 @@ import { Section } from '@/components/marketing/section';
 import { Button } from '@/components/ui/button';
 
 export default function Error({
-  reset,
+  unstable_retry,
 }: {
   error: Error & { digest?: string };
-  reset: () => void;
+  unstable_retry: () => void;
 }) {
   return (
     <main>
@@ -25,7 +25,7 @@ export default function Error({
               This page could not load. Please try again.
             </p>
             <div className='mt-9 flex flex-col justify-center gap-3 sm:flex-row'>
-              <Button onClick={() => reset()}>Try again</Button>
+              <Button onClick={() => unstable_retry()}>Try again</Button>
               <Button intent='secondary' appearance='outline' asChild>
                 <Link href='/'>Back to home</Link>
               </Button>
