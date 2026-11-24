@@ -98,7 +98,7 @@ Open [http://localhost:3000](http://localhost:3000).
 Before opening a PR, run the full local check:
 
 ```bash
-npm run lint && npm run build
+npm run lint && npm run test && npm run build
 ```
 
 ## Contributing
