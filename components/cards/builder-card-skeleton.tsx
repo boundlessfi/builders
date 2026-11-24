@@ -18,9 +18,6 @@ export function BuilderCardSkeleton({
           <Skeleton className='h-4 w-32' />
           <Skeleton className='h-3.5 w-20' />
         </div>
-        {!showStats && (
-          <Skeleton className='h-5 w-20 shrink-0 self-start rounded-[12px]' />
-        )}
       </div>
 
       <Skeleton className='h-4 w-48' />

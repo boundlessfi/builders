@@ -82,7 +82,7 @@ function BuilderCardBody({
 
   return (
     <>
-      {/* Header: avatar + name + username + optional status badge */}
+      {/* Header: avatar + name + username */}
       <div className='flex items-center gap-3'>
         <Avatar
           src={avatarSrc}
@@ -101,11 +101,14 @@ function BuilderCardBody({
             </p>
           )}
         </div>
-        {status && <StatusBadge status={status} />}
       </div>
 
-      {/* Variable content: bio, role, location, skills — stretches to keep cards equal-height */}
+      {/* Variable content: status, bio, role, location, skills — stretches to keep cards equal-height */}
       <div className='flex flex-1 flex-col gap-5'>
+        {/* Status sits on its own line. Next to the name it squeezed the name
+            down to one letter in the four column grid. */}
+        {status && <StatusBadge status={status} />}
+
         {/* Bio */}
         {bio && (
           <p className='line-clamp-2 text-body-sm text-muted-foreground'>
