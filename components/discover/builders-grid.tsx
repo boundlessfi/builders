@@ -18,6 +18,7 @@ export function BuildersGrid({
   page,
   pageSize,
   onPageChange,
+  getPageHref,
   onHelpClick,
 }: {
   data?: BuildersDirectoryResponse;
@@ -29,6 +30,7 @@ export function BuildersGrid({
   page: number;
   pageSize: number;
   onPageChange: (page: number) => void;
+  getPageHref?: (page: number) => string;
   /** Called when the user clicks "How to get listed" in the empty state. */
   onHelpClick?: () => void;
 }) {
@@ -90,6 +92,7 @@ export function BuildersGrid({
           pageSize={pageSize}
           totalItems={data.pagination.total}
           onPageChange={onPageChange}
+          getPageHref={getPageHref}
           className="justify-between"
         />
       )}
