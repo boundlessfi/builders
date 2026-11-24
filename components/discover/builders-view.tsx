@@ -9,12 +9,17 @@ import { Activity01Icon, CodeIcon, GlobeIcon } from "@/components/icons";
 import { HowToGetListedDialog } from "@/components/discover/how-to-get-listed-dialog";
 import { Section } from "@/components/marketing/section";
 
+import {
+  ActiveFilterSummary,
+  type ActiveFilterChip,
+} from "./active-filter-summary";
 import { BuildersGrid } from "./builders-grid";
 import { BuildersSortSelect } from "./builders-sort-select";
 import { StatsBanner } from "./stats-banner";
 import { DiscoverToolbar } from "./discover-toolbar";
 import {
   FilterRail,
+  formatLabel,
   hasActiveFilters,
   type FilterSectionConfig,
   type FilterValue,
@@ -63,7 +68,7 @@ const COUNTRY_NAMES = new Map<string, string>(
   getCountryDataList().map((country) => [country.iso2, country.name]),
 );
 
-function countryLabel(code: string): string | undefined {
+export function countryLabel(code: string): string | undefined {
   return COUNTRY_NAMES.get(code.toUpperCase());
 }
 
@@ -152,13 +157,19 @@ export function BuildersView() {
     navigate(search, filters, 1, "push", next);
   };
 
-  const changePage = (next: number) => {
+  // Page changes bring the top of the results into view. Search, filters and
+  // sort keep the page where it is.
+  const scrollToResults = () => {
     resultsTopRef.current?.scrollIntoView({
       behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
         ? "instant"
         : "smooth",
       block: "start",
     });
+  };
+
+  const changePage = (next: number) => {
+    scrollToResults();
     navigate(search, filters, next, "push");
   };
 
@@ -167,7 +178,7 @@ export function BuildersView() {
     [searchParams]
   );
 
-  const { data, isError, isPending } = useBuilders(params);
+  const { data, isError, isPending, isPlaceholderData } = useBuilders(params);
   const {
     data: facets,
     isPending: facetsPending,
@@ -207,6 +218,41 @@ export function BuildersView() {
     ];
   }, [facets]);
 
+  const activeChips = useMemo<ActiveFilterChip[]>(() => {
+    const chips: ActiveFilterChip[] = [];
+    for (const skill of filters.skills ?? []) {
+      chips.push({ group: "skills", value: skill, label: skill });
+    }
+    const country = filters.country?.[0];
+    if (country) {
+      chips.push({
+        group: "country",
+        value: country,
+        label: countryLabel(country) ?? country,
+      });
+    }
+    const status = filters.status?.[0];
+    if (status) {
+      chips.push({
+        group: "status",
+        value: status,
+        label: formatLabel(status),
+      });
+    }
+    return chips;
+  }, [filters]);
+
+  const removeFilter = useCallback(
+    (group: string, value: string) => {
+      const nextFilters: FilterValue = {
+        ...filters,
+        [group]: (filters[group] ?? []).filter((entry) => entry !== value),
+      };
+      navigate(search, nextFilters, 1, "push");
+    },
+    [filters, navigate, search]
+  );
+
   const reset = () => {
     setCommitted("");
     setSearchInput("");
@@ -218,10 +264,10 @@ export function BuildersView() {
   // the pagination is not rendered, so there is no way back.
   const totalPages = data?.pagination.totalPages ?? 0;
   useEffect(() => {
-    if (totalPages > 0 && page > totalPages) {
+    if (!isPlaceholderData && totalPages > 0 && page > totalPages) {
       navigate(search, filters, totalPages, "replace");
     }
-  }, [page, totalPages, search, filters, sort, navigate]);
+  }, [isPlaceholderData, page, totalPages, search, filters, sort, navigate]);
 
   return (
     <Section
@@ -266,15 +312,28 @@ export function BuildersView() {
           </aside>
         ) : null}
 
-        <div className="min-w-0 flex-1">
+        <div className="flex min-w-0 flex-1 flex-col gap-4">
+          <ActiveFilterSummary
+            total={data?.pagination.total}
+            isPending={isPending}
+            isError={isError}
+            chips={activeChips}
+            onRemove={removeFilter}
+          />
           <BuildersGrid
             data={data}
             isPending={isPending}
+            isPlaceholderData={isPlaceholderData}
             isError={isError}
             isNarrowed={hasActiveFilters(filters) || search.length > 0}
             page={page}
             pageSize={BUILDERS_PAGE_SIZE}
             onPageChange={changePage}
+            getPageHref={(next) => {
+              const query = buildQuery(search, filters, next, sort);
+              return query ? `/builders?${query}` : "/builders";
+            }}
+            onPageLinkClick={scrollToResults}
             onHelpClick={() => setHelpDialogOpen(true)}
           />
         </div>

@@ -6,7 +6,35 @@ import { Avatar } from '@/components/ui/avatar';
 import { deriveInitials } from '@/lib/initials';
 import { cn } from '@/lib/utils';
 
-import type { BuilderCardView } from './types';
+import type { BuilderCardStatus, BuilderCardView } from './types';
+
+const STATUS_LABEL: Record<BuilderCardStatus, string> = {
+  AVAILABLE: 'Available',
+  OPEN_TO_WORK: 'Open to work',
+  BUSY: 'Busy',
+  UNAVAILABLE: 'Unavailable',
+};
+
+const STATUS_COLOR: Record<BuilderCardStatus, string> = {
+  AVAILABLE: 'text-success-500',
+  OPEN_TO_WORK: 'text-primary-700',
+  BUSY: 'text-warning-500',
+  UNAVAILABLE: 'text-muted-foreground',
+};
+
+function StatusBadge({ status }: { status: BuilderCardStatus }) {
+  return (
+    <span
+      className={cn(
+        'flex shrink-0 items-center gap-1 self-start rounded-[12px] bg-primary-50/8 px-2 py-0.5',
+        STATUS_COLOR[status]
+      )}
+    >
+      <span className='size-1.5 rounded-full bg-current' />
+      <span className='text-xs font-medium'>{STATUS_LABEL[status]}</span>
+    </span>
+  );
+}
 
 function Meta({
   icon: Icon,
@@ -39,6 +67,8 @@ function BuilderCardBody({
     displayName,
     username,
     avatarSrc,
+    status,
+    bio,
     role,
     location,
     skills: rawSkills,
@@ -73,8 +103,19 @@ function BuilderCardBody({
         </div>
       </div>
 
-      {/* Variable content: role, location, skills — stretches to keep cards equal-height */}
+      {/* Variable content: status, bio, role, location, skills — stretches to keep cards equal-height */}
       <div className='flex flex-1 flex-col gap-5'>
+        {/* Status sits on its own line. Next to the name it squeezed the name
+            down to one letter in the four column grid. */}
+        {status && <StatusBadge status={status} />}
+
+        {/* Bio */}
+        {bio && (
+          <p className='line-clamp-2 text-body-sm text-muted-foreground'>
+            {bio}
+          </p>
+        )}
+
         {/* Role / title */}
         {role && (
           <p className='text-body-sm text-muted-foreground'>{role}</p>
