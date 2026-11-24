@@ -60,6 +60,8 @@ edit.
 | `npm run build` | Production build (also runs the TypeScript check) |
 | `npm run start` | Serve the production build |
 | `npm run lint` | Run ESLint |
+| `npm run test` | Run unit tests (single run) |
+| `npm run test:watch` | Run unit tests in watch mode |
 
 ## Follow the design system
 
@@ -208,6 +210,7 @@ Before you open a PR, confirm:
       off-system spacing).
 - [ ] The change is display-only (no creation or upload flows).
 - [ ] `npm run lint` passes.
+- [ ] `npm run test` passes.
 - [ ] `npm run build` passes (this also type-checks).
 - [ ] I attached a screenshot for any visual change.
 - [ ] No em dashes in code, comments, or copy.
