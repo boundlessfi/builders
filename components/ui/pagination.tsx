@@ -2,6 +2,7 @@
 
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
+import type { MouseEvent } from 'react';
 
 import { cn } from '@/lib/utils';
 
@@ -13,6 +14,11 @@ interface PaginationProps {
   onPageChange: (page: number) => void;
   /** Build a URL for link-based pagination controls. */
   getPageHref?: (page: number) => string;
+  /**
+   * Called when a pagination link is followed with a plain left click. It is
+   * not called for clicks that open a new tab or window.
+   */
+  onPageLinkClick?: (page: number) => void;
   /** Hide the "Showing X to Y of Z items" summary. */
   hideSummary?: boolean;
   className?: string;
@@ -49,6 +55,7 @@ export function Pagination({
   totalItems,
   onPageChange,
   getPageHref,
+  onPageLinkClick,
   hideSummary = false,
   className,
 }: PaginationProps) {
@@ -62,6 +69,18 @@ export function Pagination({
     const clamped = Math.min(Math.max(next, 1), pageCount);
     if (clamped !== page) onPageChange(clamped);
   };
+
+  const linkClick =
+    (target: number) => (event: MouseEvent<HTMLAnchorElement>) => {
+      const opensElsewhere =
+        event.button !== 0 ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey;
+      if (opensElsewhere || target === page) return;
+      onPageLinkClick?.(target);
+    };
 
   const previousPage = page - 1;
   const nextPage = page + 1;
@@ -89,6 +108,7 @@ export function Pagination({
           <Link
             href={getPageHref(previousPage)}
             scroll={false}
+            onClick={linkClick(previousPage)}
             aria-label='Previous page'
             className='flex size-8 items-center justify-center rounded-lg text-[#707070] transition-colors hover:text-white'
           >
@@ -119,6 +139,7 @@ export function Pagination({
               key={p}
               href={getPageHref(p)}
               scroll={false}
+              onClick={linkClick(p)}
               aria-label={`Page ${p}`}
               aria-current={p === page ? 'page' : undefined}
               className={cn(
@@ -153,6 +174,7 @@ export function Pagination({
           <Link
             href={getPageHref(nextPage)}
             scroll={false}
+            onClick={linkClick(nextPage)}
             aria-label='Next page'
             className='flex size-8 items-center justify-center rounded-lg text-[#707070] transition-colors hover:text-white'
           >

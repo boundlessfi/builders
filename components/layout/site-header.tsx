@@ -14,6 +14,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { headerMenus } from '@/config/marketing-nav';
+import { externalLinkProps } from '@/lib/links';
 import { siteConfig } from '@/lib/seo/site';
 
 /** The main Boundless app, where builders sign up and create. Opens in a new tab. */
@@ -115,7 +116,7 @@ function MegaMenu() {
                   asChild
                   className='w-full gap-3 rounded-none p-2 focus:bg-white/[0.04] focus:text-white'
                 >
-                  <Link href={item.href}>
+                  <Link href={item.href} {...externalLinkProps(item.href)}>
                     <span className='grid size-10 shrink-0 place-items-center rounded-lg bg-[#232324] text-brand'>
                       {Icon ? <Icon className='size-5 text-brand' /> : null}
                     </span>
@@ -159,6 +160,7 @@ function MobileMenu({ onNavigate }: { onNavigate: () => void }) {
                   <Link
                     key={item.href}
                     href={item.href}
+                    {...externalLinkProps(item.href)}
                     onClick={onNavigate}
                     className='flex items-center gap-3 rounded-lg p-2 transition-colors hover:bg-white/5'
                   >

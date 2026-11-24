@@ -2,7 +2,7 @@
 
 import { getCountryDataList } from "countries-list";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { BuilderCardSkeleton } from "@/components/cards/builder-card-skeleton";
 import { Activity01Icon, CodeIcon, GlobeIcon } from "@/components/icons";
@@ -92,6 +92,7 @@ export function BuildersView() {
   const [railOpen, setRailOpen] = useState(true);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [helpDialogOpen, setHelpDialogOpen] = useState(false);
+  const resultsTopRef = useRef<HTMLDivElement>(null);
 
   // The box is the one control not driven straight from the URL, because typing
   // has to stay off the network until the visitor pauses. `committed` remembers
@@ -154,6 +155,22 @@ export function BuildersView() {
 
   const applySort = (next: BuilderSort) => {
     navigate(search, filters, 1, "push", next);
+  };
+
+  // Page changes bring the top of the results into view. Search, filters and
+  // sort keep the page where it is.
+  const scrollToResults = () => {
+    resultsTopRef.current?.scrollIntoView({
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "instant"
+        : "smooth",
+      block: "start",
+    });
+  };
+
+  const changePage = (next: number) => {
+    scrollToResults();
+    navigate(search, filters, next, "push");
   };
 
   const params = useMemo<BuildersQueryParams>(
@@ -267,17 +284,19 @@ export function BuildersView() {
         }}
       />
 
-      <DiscoverToolbar
-        filtersOpen={railOpen}
-        onToggleFilters={() => setRailOpen((open) => !open)}
-        onOpenMobileFilters={() => setSheetOpen(true)}
-        filtersActive={hasActiveFilters(filters)}
-        onReset={reset}
-        query={searchInput}
-        onQueryChange={setSearchInput}
-        placeholder="Search builders, skills, or locations"
-        sort={<BuildersSortSelect value={sort} onChange={applySort} />}
-      />
+      <div ref={resultsTopRef} className="scroll-mt-20">
+        <DiscoverToolbar
+          filtersOpen={railOpen}
+          onToggleFilters={() => setRailOpen((open) => !open)}
+          onOpenMobileFilters={() => setSheetOpen(true)}
+          filtersActive={hasActiveFilters(filters)}
+          onReset={reset}
+          query={searchInput}
+          onQueryChange={setSearchInput}
+          placeholder="Search builders, skills, or locations"
+          sort={<BuildersSortSelect value={sort} onChange={applySort} />}
+        />
+      </div>
 
       <div className="flex items-start gap-6">
         {railOpen ? (
@@ -309,11 +328,12 @@ export function BuildersView() {
             isNarrowed={hasActiveFilters(filters) || search.length > 0}
             page={page}
             pageSize={BUILDERS_PAGE_SIZE}
-            onPageChange={(next) => navigate(search, filters, next, "push")}
+            onPageChange={changePage}
             getPageHref={(next) => {
               const query = buildQuery(search, filters, next, sort);
               return query ? `/builders?${query}` : "/builders";
             }}
+            onPageLinkClick={scrollToResults}
             onHelpClick={() => setHelpDialogOpen(true)}
           />
         </div>
