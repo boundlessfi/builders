@@ -161,7 +161,7 @@ export function BuildersView() {
     [searchParams]
   );
 
-  const { data, isError, isPending } = useBuilders(params);
+  const { data, isError, isPending, isPlaceholderData } = useBuilders(params);
   const {
     data: facets,
     isPending: facetsPending,
@@ -247,10 +247,10 @@ export function BuildersView() {
   // the pagination is not rendered, so there is no way back.
   const totalPages = data?.pagination.totalPages ?? 0;
   useEffect(() => {
-    if (totalPages > 0 && page > totalPages) {
+    if (!isPlaceholderData && totalPages > 0 && page > totalPages) {
       navigate(search, filters, totalPages, "replace");
     }
-  }, [page, totalPages, search, filters, sort, navigate]);
+  }, [isPlaceholderData, page, totalPages, search, filters, sort, navigate]);
 
   return (
     <Section
@@ -304,6 +304,7 @@ export function BuildersView() {
           <BuildersGrid
             data={data}
             isPending={isPending}
+            isPlaceholderData={isPlaceholderData}
             isError={isError}
             isNarrowed={hasActiveFilters(filters) || search.length > 0}
             page={page}
