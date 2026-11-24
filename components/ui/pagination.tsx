@@ -1,6 +1,7 @@
 'use client';
 
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import Link from 'next/link';
 
 import { cn } from '@/lib/utils';
 
@@ -10,6 +11,8 @@ interface PaginationProps {
   pageSize: number;
   totalItems: number;
   onPageChange: (page: number) => void;
+  /** Build a URL for link-based pagination controls. */
+  getPageHref?: (page: number) => string;
   /** Hide the "Showing X to Y of Z items" summary. */
   hideSummary?: boolean;
   className?: string;
@@ -45,6 +48,7 @@ export function Pagination({
   pageSize,
   totalItems,
   onPageChange,
+  getPageHref,
   hideSummary = false,
   className,
 }: PaginationProps) {
@@ -59,6 +63,19 @@ export function Pagination({
     if (clamped !== page) onPageChange(clamped);
   };
 
+  const previousPage = page - 1;
+  const nextPage = page + 1;
+  const previousControl = (
+    <>
+      <ChevronLeft className='size-4' />
+    </>
+  );
+  const nextControl = (
+    <>
+      <ChevronRight className='size-4' />
+    </>
+  );
+
   return (
     <div className={cn('flex items-center gap-4', className)}>
       {!hideSummary ? (
@@ -68,15 +85,26 @@ export function Pagination({
       ) : null}
 
       <div className='flex items-center gap-2'>
-        <button
-          type='button'
-          aria-label='Previous page'
-          onClick={() => go(page - 1)}
-          disabled={page <= 1}
-          className='flex size-8 items-center justify-center rounded-lg text-[#707070] transition-colors hover:text-white disabled:pointer-events-none disabled:opacity-40'
-        >
-          <ChevronLeft className='size-4' />
-        </button>
+        {getPageHref && page > 1 ? (
+          <Link
+            href={getPageHref(previousPage)}
+            scroll={false}
+            aria-label='Previous page'
+            className='flex size-8 items-center justify-center rounded-lg text-[#707070] transition-colors hover:text-white'
+          >
+            {previousControl}
+          </Link>
+        ) : (
+          <button
+            type='button'
+            aria-label='Previous page'
+            onClick={() => go(previousPage)}
+            disabled={page <= 1}
+            className='flex size-8 items-center justify-center rounded-lg text-[#707070] transition-colors hover:text-white disabled:pointer-events-none disabled:opacity-40'
+          >
+            {previousControl}
+          </button>
+        )}
 
         {pageList(page, pageCount).map((p, i) =>
           p === 'gap' ? (
@@ -86,6 +114,22 @@ export function Pagination({
             >
               &hellip;
             </span>
+          ) : getPageHref ? (
+            <Link
+              key={p}
+              href={getPageHref(p)}
+              scroll={false}
+              aria-label={`Page ${p}`}
+              aria-current={p === page ? 'page' : undefined}
+              className={cn(
+                'flex size-8 items-center justify-center rounded-lg text-sm font-medium transition-colors',
+                p === page
+                  ? 'bg-primary-500 text-[#1a1a1a]'
+                  : 'text-[#707070] hover:text-white'
+              )}
+            >
+              {p}
+            </Link>
           ) : (
             <button
               key={p}
@@ -105,15 +149,26 @@ export function Pagination({
           )
         )}
 
-        <button
-          type='button'
-          aria-label='Next page'
-          onClick={() => go(page + 1)}
-          disabled={page >= pageCount}
-          className='flex size-8 items-center justify-center rounded-lg text-[#707070] transition-colors hover:text-white disabled:pointer-events-none disabled:opacity-40'
-        >
-          <ChevronRight className='size-4' />
-        </button>
+        {getPageHref && page < pageCount ? (
+          <Link
+            href={getPageHref(nextPage)}
+            scroll={false}
+            aria-label='Next page'
+            className='flex size-8 items-center justify-center rounded-lg text-[#707070] transition-colors hover:text-white'
+          >
+            {nextControl}
+          </Link>
+        ) : (
+          <button
+            type='button'
+            aria-label='Next page'
+            onClick={() => go(nextPage)}
+            disabled={page >= pageCount}
+            className='flex size-8 items-center justify-center rounded-lg text-[#707070] transition-colors hover:text-white disabled:pointer-events-none disabled:opacity-40'
+          >
+            {nextControl}
+          </button>
+        )}
       </div>
     </div>
   );

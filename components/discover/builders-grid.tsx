@@ -12,21 +12,25 @@ const GRID_CLASS = "grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4";
 export function BuildersGrid({
   data,
   isPending,
+  isPlaceholderData = false,
   isError,
   isNarrowed,
   page,
   pageSize,
   onPageChange,
+  getPageHref,
   onHelpClick,
 }: {
   data?: BuildersDirectoryResponse;
   isPending: boolean;
+  isPlaceholderData?: boolean;
   isError: boolean;
   /** A search or filter is applied, so an empty result is a miss, not an empty directory. */
   isNarrowed: boolean;
   page: number;
   pageSize: number;
   onPageChange: (page: number) => void;
+  getPageHref?: (page: number) => string;
   /** Called when the user clicks "How to get listed" in the empty state. */
   onHelpClick?: () => void;
 }) {
@@ -69,7 +73,10 @@ export function BuildersGrid({
   }
 
   return (
-    <div className="flex flex-col gap-8">
+    <div
+      aria-busy={isPlaceholderData}
+      className={`flex flex-col gap-8 transition-opacity ${isPlaceholderData ? "opacity-60" : ""}`}
+    >
       <div className={GRID_CLASS}>
         {data.data.map((builder) => (
           <BuilderCard
@@ -85,6 +92,7 @@ export function BuildersGrid({
           pageSize={pageSize}
           totalItems={data.pagination.total}
           onPageChange={onPageChange}
+          getPageHref={getPageHref}
           className="justify-between"
         />
       )}

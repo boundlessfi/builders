@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 
 import { apiFetch } from '@/lib/api/client';
 import type { Schemas, paths } from '@/lib/api/types';
@@ -189,6 +189,7 @@ export function useBuilders(params: BuildersQueryParams = {}) {
   return useQuery({
     queryKey: buildersKeys.list(params),
     queryFn: () => fetchBuilders(params),
+    placeholderData: keepPreviousData,
   });
 }
 

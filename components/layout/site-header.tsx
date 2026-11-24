@@ -144,7 +144,7 @@ function MobileMenu({ onNavigate }: { onNavigate: () => void }) {
   return (
     <div
       id='site-mobile-menu'
-      className='border-t border-[#27292c] bg-ink lg:hidden'
+      className='max-h-[calc(100dvh-5rem)] overflow-y-auto overscroll-contain border-t border-[#27292c] bg-ink lg:hidden'
     >
       <div className='space-y-6 px-5 py-6'>
         {headerMenus.map(menu => (
@@ -203,10 +203,47 @@ function MobileMenu({ onNavigate }: { onNavigate: () => void }) {
  */
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement | null>(null);
   const pathname = usePathname();
   const variant: HeaderVariant = (pathname ?? '').startsWith('/blog')
     ? 'blog'
     : 'site';
+
+  const [prevPathname, setPrevPathname] = useState(pathname);
+  if (prevPathname !== pathname) {
+    setPrevPathname(pathname);
+    setOpen(false);
+  }
+
+  useEffect(() => {
+    if (!open) return;
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    };
+
+    const mediaQuery = window.matchMedia('(min-width: 1024px)');
+    const handleMediaChange = (event: MediaQueryListEvent) => {
+      if (event.matches) {
+        setOpen(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    mediaQuery.addEventListener('change', handleMediaChange);
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener('keydown', handleKeyDown);
+      mediaQuery.removeEventListener('change', handleMediaChange);
+    };
+  }, [open]);
 
   return (
     <header className='sticky top-0 z-50 border-b border-[#27292c] bg-ink/50 backdrop-blur-[4px]'>
@@ -250,6 +287,7 @@ export function SiteHeader() {
                   </a>
                 </PillButton>
                 <button
+                  ref={menuButtonRef}
                   type='button'
                   onClick={() => setOpen(value => !value)}
                   className='inline-flex size-10 items-center justify-center text-white'
