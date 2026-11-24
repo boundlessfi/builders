@@ -9,12 +9,17 @@ import { Activity01Icon, CodeIcon, GlobeIcon } from "@/components/icons";
 import { HowToGetListedDialog } from "@/components/discover/how-to-get-listed-dialog";
 import { Section } from "@/components/marketing/section";
 
+import {
+  ActiveFilterSummary,
+  type ActiveFilterChip,
+} from "./active-filter-summary";
 import { BuildersGrid } from "./builders-grid";
 import { BuildersSortSelect } from "./builders-sort-select";
 import { StatsBanner } from "./stats-banner";
 import { DiscoverToolbar } from "./discover-toolbar";
 import {
   FilterRail,
+  formatLabel,
   hasActiveFilters,
   type FilterSectionConfig,
   type FilterValue,
@@ -63,7 +68,7 @@ const COUNTRY_NAMES = new Map<string, string>(
   getCountryDataList().map((country) => [country.iso2, country.name]),
 );
 
-function countryLabel(code: string): string | undefined {
+export function countryLabel(code: string): string | undefined {
   return COUNTRY_NAMES.get(code.toUpperCase());
 }
 
@@ -196,6 +201,41 @@ export function BuildersView() {
     ];
   }, [facets]);
 
+  const activeChips = useMemo<ActiveFilterChip[]>(() => {
+    const chips: ActiveFilterChip[] = [];
+    for (const skill of filters.skills ?? []) {
+      chips.push({ group: "skills", value: skill, label: skill });
+    }
+    const country = filters.country?.[0];
+    if (country) {
+      chips.push({
+        group: "country",
+        value: country,
+        label: countryLabel(country) ?? country,
+      });
+    }
+    const status = filters.status?.[0];
+    if (status) {
+      chips.push({
+        group: "status",
+        value: status,
+        label: formatLabel(status),
+      });
+    }
+    return chips;
+  }, [filters]);
+
+  const removeFilter = useCallback(
+    (group: string, value: string) => {
+      const nextFilters: FilterValue = {
+        ...filters,
+        [group]: (filters[group] ?? []).filter((entry) => entry !== value),
+      };
+      navigate(search, nextFilters, 1, "push");
+    },
+    [filters, navigate, search]
+  );
+
   const reset = () => {
     setCommitted("");
     setSearchInput("");
@@ -253,7 +293,14 @@ export function BuildersView() {
           </aside>
         ) : null}
 
-        <div className="min-w-0 flex-1">
+        <div className="flex min-w-0 flex-1 flex-col gap-4">
+          <ActiveFilterSummary
+            total={data?.pagination.total}
+            isPending={isPending}
+            isError={isError}
+            chips={activeChips}
+            onRemove={removeFilter}
+          />
           <BuildersGrid
             data={data}
             isPending={isPending}
